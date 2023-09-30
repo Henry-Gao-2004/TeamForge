@@ -29,7 +29,7 @@ s3.listBuckets(function(err, data) {
     } else {
       console.log(data);
     }
-  });
+});
 
 // Create drivers for reading and writing to database; each have their own endpoint and need their own driver/connection
 const readRemoteConnection = gremlin.driver.DriverRemoteConnection({
@@ -58,26 +58,33 @@ app.use(express.json());
 
 
 
-//POST route to create a profile
+//POST route to create a profile -- for the register page
 app.post('/api/createprofile', (req, res) => {
-   Username = req.body.username;
+  Username = req.body.username;
   // Use some method to hash the password here
-   HashedPassword = req.body.password;
+  HashedPassword = req.body.password;
 
-  addProfile(Username, Password);
+  addProfile(Username, HashedPassword);
   
 
   res.status(201).json({message: 'Profile created successfully!'});
 });
 
-//GET route to sign in
+//GET route to sign in -- for the login page 
 app.get('/api/signin', (req, res) => {
-     Username = req.body.username;
-    //Hash the password here
-     HashedPassword = req.body.password;
+  Username = req.body.username;
+  //Hash the password here
+  HashedPassword = req.body.password;
 
-    // check the relational database to see if a user w/ the username exists and if it does, check that user's hashed pwd in the data
-    // --base with the hashed password sent in the request
+  // check the relational database to see if a user w/ the username exists and if it does, check that user's hashed pwd in the data
+  // --base with the hashed password sent in the request
+
+  if (Authenticate(Username, HashedPassword)){
+        // return the appropriate profile info
+  } else {
+      // return an error message stating the password was incorrect/did not match
+  }
+
 });
 
 
@@ -92,7 +99,7 @@ function addProfile(Username, HashedPassword){
 
 }
 
-//query for authenticating a user in the database
+//query for authenticating a user in the database -- for the login page
 function Authenticate(Username, HashedPassword){
   
 }
