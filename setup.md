@@ -12,3 +12,10 @@ In command line, enter
 npm create vite@latest
 
 ![image](https://github.com/Tomato-Tigers/TeamForge/assets/77124321/547b33d5-54af-41d9-94e9-6e9b59b0382f)
+
+
+Google auth - 
+
+npm install jwt-decode
+
+jwt-decode allows us to decode the google login JSON web token and get the object 
