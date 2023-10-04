@@ -1,0 +1,75 @@
+/* TOP LEVEL */
+
+html {
+    background-color: #3C3838;
+}
+
+/* LOGIN PAGE */
+
+.login_page {
+    background-color: #3C3838;
+    text-align: center;
+    font-family: "Georgia", Arial, Helvetica, sans-serif;
+}
+
+.login_page .circle {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+.login_page .circle:nth-child(1) {
+    background-color: teal;
+    top: 10%;
+    left: 20%;
+}
+
+.login_page .circle:nth-child(2) {
+    background-color: maroon;
+    bottom: 20%;
+    right: 20%;
+}
+
+.login_box {
+    margin-top: 15%;
+    margin-left: 25%;
+    margin-right: 25%;
+    padding: 15%;
+    box-sizing: border-box;
+    background-color: #AAAAAA;
+    opacity: 0.5;
+    border-radius: 20px;
+    border: 2px solid white;
+}
+
+.login_page h3 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.login_page .login_form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login_page label {
+    display: block;
+}
+
+.login_page button {
+    color: white;
+    margin: 10px;
+    background-color: #3C3838;
+    transition: background-color 0.2s ease;
+}
+
+.login_page .register_button {
+    margin-top: 50px;
+}
+
+.login_page button:hover {
+    background-color: #55B849;
+}
