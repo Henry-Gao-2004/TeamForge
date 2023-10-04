@@ -1,13 +1,22 @@
-import React, { useState } from "react";
-import { ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import {uDB} from "./LoginPage";
 
-/*const userDatabase: [string, string][] = [
-    ["alexandra.iotzova@emory.edu", "Password123"]
-];*/
+
+//const userDatabase: [string, string][] = [
+//   ["alexandra.iotzova@emory.edu", "Password123"]
+//];
+
 function RegistrationPage() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
+
+    const navigate = useNavigate();
+
+    const redirectToLoginPage = () => {
+        navigate("/");
+    };
 
     const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
@@ -22,12 +31,22 @@ function RegistrationPage() {
     };
 
     const handleRegistration = () => {
-        fetch('/api/createprofile')
-            .then(response => response.json())
-            .then(data => console.log("Server response: ", data))
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        console.log("Email:", email);
+        console.log("Password:", password);
+        console.log("Confirm Password:", confirmPassword);
+        if (password != confirmPassword ) {
+            alert("Passwords do not match")
+        }
+        const confirmUser = uDB.find(([username, userPassword]) => {
+            return username === email && userPassword === password;
+        });
+        if (confirmUser) {
+            alert("Login already  there");
+        } else {
+            alert("Creating");
+
+        }
+
     };
 
     return (
@@ -52,6 +71,13 @@ function RegistrationPage() {
                 </div>
                 <button type="button" onClick={handleRegistration}>
                     Register
+                </button>
+                <button
+                    className="login_page"
+                    type="button"
+                    onClick={redirectToLoginPage}
+                >
+                    Login
                 </button>
             </form>
         </div>
