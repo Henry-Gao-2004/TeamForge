@@ -1,15 +1,29 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const port = process.env.PORT || 3001;
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors({
+  origin: 'http://localhost:3001'
+}));
+
 app.use(express.json());
 
-app.post('/api/createprofile', async (req, res) => {
-    const Username = 'TeamForge';
-    const HashedPassword = bcrypt.hashSync('servertest101', 10);
+let users = [];  // Mock database for user profiles
 
+app.post('/api/createprofile', async (req, res) => {
+    const Username = req.body.username;
+    const plainTextPassword = req.body.password;
+
+    // Check if username already exists
+    const existingUser = users.find(user => user.username === Username);
+    if (existingUser) {
+        return res.status(409).json({ message: 'Username already exists. Please choose another.' });
+    }
+
+    const HashedPassword = bcrypt.hashSync(plainTextPassword, 10);
     try {
         await addProfile(Username, HashedPassword);
         res.status(201).json({ message: 'Profile created successfully!' });
@@ -20,7 +34,6 @@ app.post('/api/createprofile', async (req, res) => {
 });
 
 app.post('/api/signin', async (req, res) => {
-    console.log("Signin route hit!");
     const Username = req.body.username;
     const plainTextPassword = req.body.password;
 
@@ -37,17 +50,19 @@ app.post('/api/signin', async (req, res) => {
     }
 });
 
-// Mock function to simulate adding a profile
+// Mock function to simulate adding a profile to our "database"
 async function addProfile(Username, HashedPassword) {
+    users.push({
+        username: Username,
+        password: HashedPassword
+    });
     console.log("Profile added with username:", Username, "and hashed password:", HashedPassword);
 }
 
-// Mock function to simulate fetching a stored password
+// Mock function to simulate fetching a stored password from our "database"
 async function getStoredHashedPassword(Username) {
-    if (Username === 'TeamForge') {
-        return bcrypt.hashSync('servertest101', 10); // return the hardcoded hashed password
-    }
-    return null;
+    const user = users.find(u => u.username === Username);
+    return user ? user.password : null;
 }
 
 app.listen(port, () => {
